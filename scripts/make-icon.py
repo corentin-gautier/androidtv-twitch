@@ -1,7 +1,8 @@
 """Draws the launcher icon (vector drawable) and the TV banner (PNG) from Twitch's logo, made to wink.
 
 Usage, from the repository root: python3 scripts/make-icon.py [preview.png]
-Rewrites ic_launcher_foreground.xml and banner.png; with a path, also saves a preview of both.
+Rewrites ic_launcher_foreground.xml, banner.png and docs/icon.png (the round icon, for the README);
+with a path, also saves a preview of icon and banner.
 Needs Pillow (pip install pillow).
 
 The logo and the purple are Twitch's trademarks: fine on a personal device, not for distribution.
@@ -100,9 +101,7 @@ glitch(banner, scale, x, (H - logo) / 2, WHITE)
 d.text((x + logo + gap, H / 2), name, font=font, fill=WHITE, anchor="lm")
 banner.resize((320, 180), Image.LANCZOS).save(f"{root}/app/src/main/res/drawable-xhdpi/banner.png")
 
-# Preview: the icon as a launcher circle, at two sizes, beside the banner.
-if out is None:
-    sys.exit()
+# The icon as launchers show it, a circle: for the README, and for the preview.
 size = 432 * SS
 icon = Image.new("RGB", (size, size), PURPLE)
 glitch(icon, ICON_SCALE * size / 108, ICON_OFFSET * size / 108, ICON_OFFSET * size / 108, WHITE)
@@ -110,6 +109,13 @@ visible = icon.crop((size // 6, size // 6, size * 5 // 6, size * 5 // 6)).resize
 mask = Image.new("L", (288 * SS, 288 * SS), 0)
 ImageDraw.Draw(mask).ellipse([0, 0, 288 * SS, 288 * SS], fill=255)
 mask = mask.resize((288, 288), Image.LANCZOS)
+readme_icon = visible.convert("RGBA")
+readme_icon.putalpha(mask)
+readme_icon.resize((192, 192), Image.LANCZOS).save(f"{root}/docs/icon.png")
+
+# Preview: the icon at two sizes, beside the banner.
+if out is None:
+    sys.exit()
 preview = Image.new("RGB", (860, 340), "#05060A")
 preview.paste(visible, (26, 26), mask)
 small = visible.resize((96, 96), Image.LANCZOS)

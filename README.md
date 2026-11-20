@@ -1,8 +1,12 @@
+<img src="docs/icon.png" width="96" alt="Twitch Lite icon: the Twitch logo, winking">
+
 # Twitch Lite for Android TV
 
 The world is shitty, let's make it a little less shitty, starting with a well-made Twitch app. No ads, no sub-only VODs, no lag.
 
 A replacement for the official Twitch app on Android TV and Chromecast with Google TV, written in Kotlin with Jetpack Compose and Media3 ExoPlayer.
+
+![The Following tab: live channels as cards, then offline channels as avatars](docs/following.jpg)
 
 ## Features
 
