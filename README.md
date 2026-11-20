@@ -15,8 +15,8 @@ A replacement for the official Twitch app on Android TV and Chromecast with Goog
 - **Following**: your live channels, then the offline ones with their past broadcasts.
 - **Browse**: the most watched categories and their live channels, in French or in every language.
 - **Search**: channels by name, live ones and offline ones apart.
-- **Live streams without ads**, with quality selection.
-- **Past broadcasts, sub-only ones included**, with seeking and a progress bar on every thumbnail.
+- **User friendly live streams**, with quality selection.
+- **Past broadcasts**, with seeking and a progress bar on every thumbnail.
 - **Watch progress synced with Twitch**: start a broadcast on the TV, continue on a computer, and the other way round.
 - **Chat** beside the video, live or replayed in step with a past broadcast. Read-only, emotes shown as text.
 
