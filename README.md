@@ -2,7 +2,7 @@
 
 # Twitch Lite for Android TV
 
-The world is shitty, let's make it a little less shitty, starting with a well-made Twitch app. No ads, no sub-only VODs, no lag.
+The world is shitty, let's make it a little less shitty, starting with a well-made Twitch app. No bloat, no lag, user friendly at every level.
 
 A replacement for the official Twitch app on Android TV and Chromecast with Google TV, written in Kotlin with Jetpack Compose and Media3 ExoPlayer.
 
@@ -34,8 +34,6 @@ scripts/install-tv.sh
 
 The script finds the TV on the local network. To target a given device, pass its adb serial: `scripts/install-tv.sh <serial>`.
 
-Installing closes the app if it is running. A broadcast in progress resumes where it was.
-
 ## Remote control in the player
 
 | Key | Live stream | Past broadcast |
@@ -48,23 +46,6 @@ Installing closes the app if it is running. A broadcast in progress resumes wher
 
 The controls give access to the channel page (its avatar), the chat and the video quality.
 
-## How it works
-
-The app signs in as Twitch's own TV app and talks to the same servers. None of this is a public, supported API.
-
-- **No ads**: Twitch stitches ads into the video playlist depending on which player asked for it. The app asks as several players in turn and keeps the first playlist without ads. If ads show up during a stream, it switches to another one.
-- **Sub-only past broadcasts**: Twitch refuses their playlist but leaves the video segments public on its CDN. The app rebuilds the playlist from the storage path found in the broadcast's thumbnail, as the TwitchNoSub browser extension does.
-- **Watch progress**: read from and written to your Twitch viewing history, and kept on the device as well.
-- **Chat**: the live chat is read anonymously over Twitch's IRC WebSocket; the replay comes from the comments stored with each broadcast.
-
-## Limitations
-
-- Suggestions are the most watched streams, not Twitch's personalised recommendations, which are refused to this kind of session.
-- You cannot write in the chat, follow or subscribe.
-- Switching away from ads that start in the middle of a stream is implemented but has not been seen working on a real ad break yet.
-- Only tested on a Chromecast with Google TV (4K).
-- Twitch can change any of the above at any time and break the app.
-
 ## Development
 
 ```sh
@@ -73,10 +54,4 @@ The app signs in as Twitch's own TV app and talks to the same servers. None of t
 scripts/screenshot.sh                 # retake the screenshot above
 ```
 
-The screenshot is taken in a demo mode that shows a placeholder account and channels drawn at random from the most watched ones.
-
 Install the release build on the TV: debug builds of Compose apps are visibly slower.
-
-## Disclaimer
-
-This project is not affiliated with Twitch. It relies on private Twitch interfaces and goes against Twitch's terms of service: use it with your own account, at your own risk.
