@@ -4,4 +4,5 @@
     </style>
     <color name="background">#0B0D12</color>
     <color name="accent">#35D69B</color>
+    <color name="icon_background">#9146FF</color>
 </resources>
