@@ -124,6 +124,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     var searchResults by mutableStateOf<ChannelList?>(null)
         private set
 
+    /**
+     * Demo mode, for screenshots: the Following tab shows a placeholder account following channels
+     * drawn at random from the most watched ones, instead of the user's own. Other tabs are unchanged.
+     */
+    var demo by mutableStateOf(false)
+        private set
+
     /** The category page shown over the home screen, or null. */
     var categoryPage by mutableStateOf<CategoryPage?>(null)
         private set
@@ -340,10 +347,29 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         categoryPage?.let { openCategory(it.category) }
     }
 
+    fun startDemo() {
+        demo = true
+        tab = Tab.Following
+    }
+
+    /** Random public channels standing in for the user's follows: some shown live, the others as if offline. */
+    private suspend fun demoFollowing(): Following.Loaded {
+        val channels = api.topStreams(contentLanguage).shuffled()
+        return Following.Loaded(
+            live = channels.take(DEMO_LIVE_CHANNELS).sortedByDescending { it.stream?.viewers },
+            offline = channels.drop(DEMO_LIVE_CHANNELS).map { it.copy(stream = null) }.sortedBy { it.displayName.lowercase() },
+        )
+    }
+
     /** Reloads the live channels; the full follow list changes rarely and is reloaded every 10 minutes. */
     suspend fun refreshFollowing() {
         val user = (session as? Session.SignedIn)?.user ?: return
         try {
+            if (demo) {
+                // Drawn once, so the screen does not reshuffle at each refresh.
+                if (following !is Following.Loaded) following = demoFollowing()
+                return
+            }
             val live = api.followedLive(user.id)
             val now = System.currentTimeMillis()
             val all = allFollowed?.takeIf { now - allFollowedLoadedAt < 600_000 }
@@ -425,6 +451,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         /** The only content language offered besides "all": the code Twitch expects and its name. */
         const val LANGUAGE_CODE = "FR"
         const val LANGUAGE_NAME = "French"
+        /** One row of live channels, so that the offline section shows on the same screen. */
+        const val DEMO_LIVE_CHANNELS = 4
+
+        /** The account shown in demo mode. */
+        val DEMO_USER = User(id = "", login = "username", displayName = "username", avatarUrl = null)
     }
 
     private fun qrCode(content: String): ImageBitmap {

@@ -23,7 +23,7 @@ fun App(vm: AppViewModel = viewModel()) {
                     playing != null -> PlayerScreen(vm, playing, onExit = { vm.playing = null })
                     channelPage != null -> ChannelScreen(vm, channelPage)
                     categoryPage != null -> CategoryScreen(vm, categoryPage)
-                    else -> HomeScreen(vm, session.user)
+                    else -> HomeScreen(vm, if (vm.demo) AppViewModel.DEMO_USER else session.user)
                 }
             }
         }

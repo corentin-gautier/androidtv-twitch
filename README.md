@@ -70,7 +70,10 @@ The app signs in as Twitch's own TV app and talks to the same servers. None of t
 ```sh
 ./gradlew :app:testDebugUnitTest      # unit tests
 ./gradlew :app:assembleRelease        # the build installed on the TV
+scripts/screenshot.sh                 # retake the screenshot above
 ```
+
+The screenshot is taken in a demo mode that shows a placeholder account and channels drawn at random from the most watched ones.
 
 Install the release build on the TV: debug builds of Compose apps are visibly slower.
 
